@@ -1,0 +1,9 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+    <div class="alert alert-success">
+        <h2>已成功登出</h2>
+        <p>感謝使用我們的待辦事項清單應用！</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">重新登入</a>
+    </div>
+{% endblock %}

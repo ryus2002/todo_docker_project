@@ -1,0 +1,63 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>註冊</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">使用者名稱</label>
+                            {{ form.username.errors }}
+                            <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" 
+                                   class="form-control" value="{{ form.username.value|default:'' }}" required>
+                            <div class="form-text">必填。150 個字元或更少。只能包含字母、數字和 @/./+/-/_ 字元。</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">電子郵件</label>
+                            {{ form.email.errors }}
+                            <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" 
+                                   class="form-control" value="{{ form.email.value|default:'' }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">密碼</label>
+                            {{ form.password1.errors }}
+                            <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" 
+                                   class="form-control" required>
+                            <div class="form-text">
+                                <ul>
+                                    <li>您的密碼不能與您的其他個人信息太相似。</li>
+                                    <li>您的密碼必須包含至少 8 個字符。</li>
+                                    <li>您的密碼不能是常用密碼。</li>
+                                    <li>您的密碼不能全為數字。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">確認密碼</label>
+                            {{ form.password2.errors }}
+                            <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" 
+                                   class="form-control" required>
+                            <div class="form-text">請再次輸入密碼，以進行確認。</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">註冊</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <p>已有帳號？<a href="{% url 'login' %}">登入</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

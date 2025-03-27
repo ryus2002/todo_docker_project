@@ -1,0 +1,69 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>{% if form.instance.id %}編輯任務{% else %}新增任務{% endif %}</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">標題</label>
+                            {{ form.title.errors }}
+                            <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" 
+                                   class="form-control" value="{{ form.title.value|default:'' }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">描述</label>
+                            {{ form.description.errors }}
+                            <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" 
+                                      class="form-control" rows="3">{{ form.description.value|default:'' }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.due_date.id_for_label }}" class="form-label">到期日</label>
+                            {{ form.due_date.errors }}
+                            <input type="date" name="{{ form.due_date.name }}" id="{{ form.due_date.id_for_label }}" 
+                                   class="form-control" value="{{ form.due_date.value|date:'Y-m-d'|default:'' }}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.priority.id_for_label }}" class="form-label">優先級</label>
+                            {{ form.priority.errors }}
+                            <select name="{{ form.priority.name }}" id="{{ form.priority.id_for_label }}" class="form-select">
+                                {% for value, text in form.priority.field.choices %}
+                                    <option value="{{ value }}" {% if form.priority.value == value %}selected{% endif %}>
+                                        {{ text }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label">類別</label>
+                            {{ form.category.errors }}
+                            <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}" class="form-select">
+                                <option value="">-- 選擇類別 --</option>
+                                {% for category in form.category.field.queryset %}
+                                    <option value="{{ category.id }}" {% if form.category.value|stringformat:'s' == category.id|stringformat:'s' %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'task_list' %}" class="btn btn-secondary me-md-2">取消</a>
+                            <button type="submit" class="btn btn-primary">儲存</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

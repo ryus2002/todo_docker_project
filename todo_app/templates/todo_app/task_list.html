@@ -1,0 +1,97 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+    <h1>我的待辦事項</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>過濾選項</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="category" class="form-label">類別</label>
+                    <select name="category" id="category" class="form-select">
+                        <option value="">所有類別</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="priority" class="form-label">優先級</label>
+                    <select name="priority" id="priority" class="form-select">
+                        <option value="">所有優先級</option>
+                        <option value="high">高</option>
+                        <option value="medium">中</option>
+                        <option value="low">低</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="completed" class="form-label">狀態</label>
+                    <select name="completed" id="completed" class="form-select">
+                        <option value="">所有狀態</option>
+                        <option value="False">未完成</option>
+                        <option value="True">已完成</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">過濾</button>
+                    <a href="{% url 'task_list' %}" class="btn btn-secondary">重設</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between mb-3">
+        <h2>任務列表</h2>
+        <a href="{% url 'add_task' %}" class="btn btn-success">新增任務</a>
+    </div>
+    
+    {% if tasks %}
+        <div class="list-group">
+            {% for task in tasks %}
+                <div class="list-group-item list-group-item-action priority-{{ task.priority }} {% if task.completed %}completed{% endif %}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ task.title }}</h5>
+                        <small>
+                            優先級: 
+                            {% if task.priority == 'high' %}高
+                            {% elif task.priority == 'medium' %}中
+                            {% else %}低
+                            {% endif %}
+                        </small>
+                    </div>
+                    <p class="mb-1">{{ task.description|default:'無描述' }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small>
+                            {% if task.category %}
+                                類別: {{ task.category.name }}
+                            {% else %}
+                                無類別
+                            {% endif %}
+                            {% if task.due_date %}
+                                | 到期日: {{ task.due_date }}
+                            {% endif %}
+                        </small>
+                        <div class="btn-group">
+                            <a href="{% url 'complete_task' task.id %}" class="btn btn-sm btn-outline-primary">
+                                {% if task.completed %}
+                                    標記為未完成
+                                {% else %}
+                                    標記為已完成
+                                {% endif %}
+                            </a>
+                            <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-outline-secondary">編輯</a>
+                            <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-outline-danger">刪除</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            目前沒有任務。點擊「新增任務」按鈕來建立第一個任務！
+        </div>
+    {% endif %}
+{% endblock %}

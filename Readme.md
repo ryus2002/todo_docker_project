@@ -251,6 +251,8 @@ docker-compose exec web python manage.py test
 
 ![image](https://github.com/user-attachments/assets/88bb2e11-3956-4bc3-b573-16b6d6b5caf2)
 
+![image](https://github.com/user-attachments/assets/a974ad2d-d17a-418e-be1e-b9f7482b8391)
+
 ---
 
 *注意：此 README 僅供參考，請根據您的實際專案情況進行調整和補充。*

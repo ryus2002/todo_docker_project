@@ -247,9 +247,9 @@ docker-compose exec web python manage.py test
 
 此專案採用 MIT 授權 - 詳見 LICENSE 文件
 
-## 聯絡資訊
+## 系統畫面截圖
 
-如有任何問題或建議，請聯繫專案維護者。
+![image](https://github.com/user-attachments/assets/88bb2e11-3956-4bc3-b573-16b6d6b5caf2)
 
 ---
 
